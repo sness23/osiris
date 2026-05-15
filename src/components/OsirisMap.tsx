@@ -603,21 +603,61 @@ export default function OsirisMap({ data, activeLayers, onEntityClick, onMouseCo
     setGeo('military', activeLayers.military ? toFeatures(data.military_flights) : []);
   }, [mapReady, data.commercial_flights, data.private_flights, data.private_jets, data.military_flights, activeLayers.flights, activeLayers.private, activeLayers.jets, activeLayers.military]);
 
-  // Other layers
+  // ── DECOUPLED LAYER RENDERERS (Performance Optimized) ──
+
   useEffect(() => {
     if (!mapReady) return;
     setGeo('earthquakes', activeLayers.earthquakes && data.earthquakes ? data.earthquakes.map((eq: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [eq.lng, eq.lat] }, properties: { magnitude: eq.magnitude, place: eq.place } })) : []);
+  }, [mapReady, data.earthquakes, activeLayers.earthquakes, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
     setGeo('satellites', activeLayers.satellites && data.satellites ? data.satellites.map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name, color: s.color, mission: s.mission } })) : []);
+  }, [mapReady, data.satellites, activeLayers.satellites, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
     setGeo('gdelt', activeLayers.global_incidents && data.gdelt ? data.gdelt.map((e: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [e.lng, e.lat] }, properties: { name: e.name } })) : []);
+  }, [mapReady, data.gdelt, activeLayers.global_incidents, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
     setGeo('gps-jamming', activeLayers.gps_jamming && data.gps_jamming ? data.gps_jamming.map((z: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [z.lng, z.lat] }, properties: { severity: z.severity } })) : []);
+  }, [mapReady, data.gps_jamming, activeLayers.gps_jamming, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
     setGeo('cctv', activeLayers.cctv && data.cameras ? data.cameras.map((c: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [c.lng, c.lat] }, properties: { name: c.name, city: c.city, country: c.country, source: c.source, feed_url: c.feed_url } })) : []);
+  }, [mapReady, data.cameras, activeLayers.cctv, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
     setGeo('fires', activeLayers.fires && data.fires ? data.fires.map((f: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [f.lng, f.lat] }, properties: { brightness: f.brightness } })) : []);
+  }, [mapReady, data.fires, activeLayers.fires, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
     setGeo('weather', activeLayers.weather && data.weather_events ? data.weather_events.map((w: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [w.lng, w.lat] }, properties: { title: w.title, type: w.type, icon: w.icon, severity: w.severity, source: w.source, id: w.id } })) : []);
+  }, [mapReady, data.weather_events, activeLayers.weather, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
     setGeo('infrastructure', activeLayers.infrastructure && data.infrastructure ? data.infrastructure.map((i: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [i.lng, i.lat] }, properties: { name: i.name, city: i.city, country: i.country, status: i.status, reactors: i.reactors, capacityMW: i.capacityMW, owner: i.owner } })) : []);
+  }, [mapReady, data.infrastructure, activeLayers.infrastructure, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
     setGeo('maritime', activeLayers.maritime && data.maritime_ports ? data.maritime_ports.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, country: p.country, type: p.type, volume: p.volume, fleet: p.fleet, rank: p.rank } })) : []);
     setGeo('maritime-choke', activeLayers.maritime && data.maritime_chokepoints ? data.maritime_chokepoints.map((c: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [c.lng, c.lat] }, properties: { name: c.name, traffic: c.traffic, risk: c.risk } })) : []);
-    setGeo('live-news', activeLayers.live_news && data.live_feeds ? data.live_feeds.map((f: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [f.lng, f.lat] }, properties: { name: f.name, city: f.city, country: f.country, url: f.url, category: f.category } })) : []);
+  }, [mapReady, data.maritime_ports, data.maritime_chokepoints, activeLayers.maritime, setGeo]);
 
+  useEffect(() => {
+    if (!mapReady) return;
+    setGeo('live-news', activeLayers.live_news && data.live_feeds ? data.live_feeds.map((f: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [f.lng, f.lat] }, properties: { name: f.name, city: f.city, country: f.country, url: f.url, category: f.category } })) : []);
+  }, [mapReady, data.live_feeds, activeLayers.live_news, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
     // ── CONFLICT ZONES — center-point warning markers ──
     const CONFLICT_ZONES = [
       { label: 'UKRAINE WAR', severity: 'war', lat: 48.5, lng: 31.2 },
@@ -640,7 +680,7 @@ export default function OsirisMap({ data, activeLayers, onEntityClick, onMouseCo
       properties: { label: z.label, severity: z.severity },
     }));
     setGeo('conflict-zones', conflictFeatures);
-  }, [mapReady, data, activeLayers]);
+  }, [mapReady, setGeo]);
 
   // Visibility
   useEffect(() => {

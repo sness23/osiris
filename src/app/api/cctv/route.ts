@@ -136,15 +136,6 @@ async function fetchUSCentralCameras(): Promise<any[]> {
     }
   } catch { /* silent */ }
 
-  // Curated US-Central
-  const curated = [
-    { id: 'chi-1', lat: 41.8827, lng: -87.6233, name: 'Michigan Ave & Congress', city: 'Chicago', country: 'US', feed_url: 'https://cctv.chicago.gov/cam1.jpg', source: 'Chicago DOT' },
-    { id: 'chi-2', lat: 41.8781, lng: -87.6298, name: 'LaSalle & Jackson', city: 'Chicago', country: 'US', feed_url: 'https://cctv.chicago.gov/cam2.jpg', source: 'Chicago DOT' },
-    { id: 'hou-1', lat: 29.7604, lng: -95.3698, name: 'Downtown Houston / I-45', city: 'Houston', country: 'US', feed_url: 'https://its.txdot.gov/ITS_WEB/FrontEnd/default.html', source: 'TxDOT' },
-    { id: 'dal-1', lat: 32.7767, lng: -96.7970, name: 'Downtown Dallas / I-35E', city: 'Dallas', country: 'US', feed_url: 'https://its.txdot.gov/ITS_WEB/FrontEnd/default.html', source: 'TxDOT' },
-    { id: 'den-1', lat: 39.7392, lng: -104.9903, name: 'I-25 & Colfax Ave', city: 'Denver', country: 'US', feed_url: 'https://www.cotrip.org', source: 'CDOT' },
-  ];
-  cams.push(...curated);
   return cams.filter((c: any) => c.lat && c.lng);
 }
 
@@ -183,16 +174,6 @@ async function fetchUSEastCameras(): Promise<any[]> {
     }
   } catch { /* silent */ }
 
-  // Curated East Coast
-  const curated = [
-    { id: 'dc-1', lat: 38.8977, lng: -77.0365, name: 'White House / Pennsylvania Ave', city: 'Washington DC', country: 'US', feed_url: 'https://trafficcam.dc.gov/images/image01.jpg', source: 'DCDOT' },
-    { id: 'dc-2', lat: 38.8951, lng: -77.0364, name: 'National Mall', city: 'Washington DC', country: 'US', feed_url: 'https://trafficcam.dc.gov/images/image02.jpg', source: 'DCDOT' },
-    { id: 'atl-1', lat: 33.7490, lng: -84.3880, name: 'Peachtree & 14th St', city: 'Atlanta', country: 'US', feed_url: 'https://www.511ga.org', source: 'GA-511' },
-    { id: 'mia-1', lat: 25.7617, lng: -80.1918, name: 'I-95 / Downtown Miami', city: 'Miami', country: 'US', feed_url: 'https://fl511.com', source: 'FL-511' },
-    { id: 'bos-1', lat: 42.3601, lng: -71.0589, name: 'I-93 / Downtown Boston', city: 'Boston', country: 'US', feed_url: 'https://mass511.com', source: 'MassDOT' },
-    { id: 'phi-1', lat: 39.9526, lng: -75.1652, name: 'I-76 / Center City', city: 'Philadelphia', country: 'US', feed_url: 'https://www.511pa.com', source: 'PennDOT' },
-  ];
-  cams.push(...curated);
   return cams.filter((c: any) => c.lat && c.lng);
 }
 
@@ -218,77 +199,36 @@ async function fetchEuropeCameras(): Promise<any[]> {
 
   cams.push(...await fetchAsfinagCameras());
 
-  // Curated European cameras
-  const curated = [
-    { id: 'par-1', lat: 48.8566, lng: 2.3522, name: 'Champs-Élysées', city: 'Paris', country: 'France', feed_url: 'https://www.sytadin.fr', source: 'Sytadin' },
-    { id: 'par-2', lat: 48.8584, lng: 2.2945, name: 'Tour Eiffel Area', city: 'Paris', country: 'France', feed_url: 'https://www.sytadin.fr', source: 'Sytadin' },
-    { id: 'ber-1', lat: 52.5200, lng: 13.4050, name: 'Brandenburger Tor', city: 'Berlin', country: 'Germany', feed_url: 'https://viz.berlin.de', source: 'VIZ Berlin' },
-    { id: 'ams-1', lat: 52.3676, lng: 4.9041, name: 'Centraal Station', city: 'Amsterdam', country: 'Netherlands', feed_url: 'https://opendata.ndw.nu', source: 'RWS' },
-    { id: 'rom-1', lat: 41.9028, lng: 12.4964, name: 'Via dei Fori Imperiali', city: 'Rome', country: 'Italy', feed_url: 'https://romamobilita.it', source: 'Roma Mobilità' },
-    { id: 'mad-1', lat: 40.4168, lng: -3.7038, name: 'Gran Vía', city: 'Madrid', country: 'Spain', feed_url: 'https://informo.madrid.es', source: 'Madrid DGT' },
-  ];
-  cams.push(...curated);
   return cams.filter((c: any) => c.lat && c.lng);
 }
 
-// ── ASIA/PACIFIC + AUSTRALIA ──
+// ── ASIA/PACIFIC ──
 async function fetchAsiaCameras(): Promise<any[]> {
-  const curated = [
-    // Japan
-    { id: 'tok-1', lat: 35.6595, lng: 139.7004, name: 'Shibuya Crossing', city: 'Tokyo', country: 'Japan', feed_url: 'https://www.shibuya.webcam', source: 'Public' },
-    { id: 'tok-2', lat: 35.6762, lng: 139.6503, name: 'Shinjuku Station', city: 'Tokyo', country: 'Japan', feed_url: 'https://www.jartic.or.jp', source: 'JARTIC' },
-    // Singapore
-    { id: 'sin-1', lat: 1.3521, lng: 103.8198, name: 'Marina Bay Sands', city: 'Singapore', country: 'Singapore', feed_url: 'https://onemotoring.lta.gov.sg/content/onemotoring/home/driving/traffic_information/traffic-cameras.html', source: 'LTA' },
-    // Hong Kong
-    { id: 'hk-1', lat: 22.3193, lng: 114.1694, name: 'Victoria Harbour', city: 'Hong Kong', country: 'China', feed_url: 'https://tdcctv.data.one.gov.hk', source: 'HK TD' },
-    // South Korea
-    { id: 'sel-1', lat: 37.5665, lng: 126.9780, name: 'Gwanghwamun Square', city: 'Seoul', country: 'South Korea', feed_url: 'https://www.utic.go.kr', source: 'UTIC' },
-    // Taiwan
-    { id: 'tpe-1', lat: 25.0330, lng: 121.5654, name: 'Taipei 101 View', city: 'Taipei', country: 'Taiwan', feed_url: 'https://168.thb.gov.tw', source: 'THB Taiwan' },
-    // Thailand
-    { id: 'bkk-1', lat: 13.7563, lng: 100.5018, name: 'Sukhumvit Road', city: 'Bangkok', country: 'Thailand', feed_url: 'https://bmatraffic.com', source: 'BMA Traffic' },
-    // Philippines
-    { id: 'mnl-1', lat: 14.5995, lng: 120.9842, name: 'EDSA / Ayala', city: 'Manila', country: 'Philippines', feed_url: 'https://mmdatraffic.gov.ph', source: 'MMDA' },
-    // Indonesia
-    { id: 'jkt-1', lat: -6.2088, lng: 106.8456, name: 'Sudirman Central', city: 'Jakarta', country: 'Indonesia', feed_url: 'https://lewatmana.com', source: 'LewatMana' },
-    // UAE
-    { id: 'dub-1', lat: 25.2048, lng: 55.2708, name: 'Sheikh Zayed Road', city: 'Dubai', country: 'UAE', feed_url: 'https://www.rta.ae', source: 'RTA Dubai' },
-    // India
-    { id: 'mum-1', lat: 19.0760, lng: 72.8777, name: 'Marine Drive', city: 'Mumbai', country: 'India', feed_url: 'https://trafficinfo.gov.in', source: 'MMRDA' },
-    { id: 'bng-1', lat: 13.0827, lng: 80.2707, name: 'Anna Salai', city: 'Chennai', country: 'India', feed_url: 'https://trafficinfo.gov.in', source: 'TN Police' },
-    // New Zealand
-    { id: 'nz-akl-1', lat: -36.8485, lng: 174.7633, name: 'Auckland Harbour Bridge', city: 'Auckland', country: 'New Zealand', feed_url: 'https://www.nzta.govt.nz', source: 'NZTA' },
-    { id: 'nz-wlg-1', lat: -41.2865, lng: 174.7762, name: 'Terrace Tunnel', city: 'Wellington', country: 'New Zealand', feed_url: 'https://www.nzta.govt.nz', source: 'NZTA' },
-    // ── Australia ──
-    // Perth / WA (Expanded Coverage)
-    { id: 'au-per-1', lat: -31.9505, lng: 115.8605, name: 'Mitchell Fwy / CBD', city: 'Perth', country: 'Australia', feed_url: 'https://www.mainroads.wa.gov.au/travel-information/cameras/', source: 'Main Roads WA' },
-    { id: 'au-per-2', lat: -31.9700, lng: 115.8800, name: 'Kwinana Fwy / South Perth', city: 'Perth', country: 'Australia', feed_url: 'https://www.mainroads.wa.gov.au/travel-information/cameras/', source: 'Main Roads WA' },
-    { id: 'au-per-3', lat: -31.9540, lng: 115.8750, name: 'Graham Farmer Fwy / Tunnel East', city: 'Perth', country: 'Australia', feed_url: 'https://www.mainroads.wa.gov.au/travel-information/cameras/', source: 'Main Roads WA' },
-    { id: 'au-per-4', lat: -32.0100, lng: 115.9800, name: 'Roe Hwy / Tonkin Hwy Interchange', city: 'Perth', country: 'Australia', feed_url: 'https://www.mainroads.wa.gov.au/travel-information/cameras/', source: 'Main Roads WA' },
-    { id: 'au-per-5', lat: -31.9610, lng: 115.8950, name: 'Great Eastern Hwy / Burswood', city: 'Perth', country: 'Australia', feed_url: 'https://www.mainroads.wa.gov.au/travel-information/cameras/', source: 'Main Roads WA' },
-    { id: 'au-per-6', lat: -32.0450, lng: 115.7550, name: 'Canning Hwy / Fremantle', city: 'Perth', country: 'Australia', feed_url: 'https://www.mainroads.wa.gov.au/travel-information/cameras/', source: 'Main Roads WA' },
-    // Sydney / NSW
-    { id: 'au-syd-1', lat: -33.8688, lng: 151.2093, name: 'Sydney Harbour Bridge', city: 'Sydney', country: 'Australia', feed_url: 'https://www.livetraffic.com/desktop/cameras', source: 'TfNSW' },
-    { id: 'au-syd-2', lat: -33.8580, lng: 151.2100, name: 'Circular Quay / Opera House', city: 'Sydney', country: 'Australia', feed_url: 'https://www.livetraffic.com/desktop/cameras', source: 'TfNSW' },
-    { id: 'au-syd-3', lat: -33.8830, lng: 151.2010, name: 'Anzac Bridge Approach', city: 'Sydney', country: 'Australia', feed_url: 'https://www.livetraffic.com/desktop/cameras', source: 'TfNSW' },
-    { id: 'au-syd-4', lat: -33.9200, lng: 151.1900, name: 'M5 East Tunnel', city: 'Sydney', country: 'Australia', feed_url: 'https://www.livetraffic.com/desktop/cameras', source: 'TfNSW' },
-    { id: 'au-syd-5', lat: -33.7950, lng: 151.1830, name: 'Lane Cove Tunnel', city: 'Sydney', country: 'Australia', feed_url: 'https://www.livetraffic.com/desktop/cameras', source: 'TfNSW' },
-    // Melbourne / VIC
-    { id: 'au-mel-1', lat: -37.8136, lng: 144.9631, name: 'Flinders St / Swanston', city: 'Melbourne', country: 'Australia', feed_url: 'https://traffic.vicroads.vic.gov.au', source: 'VicRoads' },
-    { id: 'au-mel-2', lat: -37.8180, lng: 144.9520, name: 'Kings Way / Southbank', city: 'Melbourne', country: 'Australia', feed_url: 'https://traffic.vicroads.vic.gov.au', source: 'VicRoads' },
-    { id: 'au-mel-3', lat: -37.7900, lng: 144.9600, name: 'Tullamarine Fwy', city: 'Melbourne', country: 'Australia', feed_url: 'https://traffic.vicroads.vic.gov.au', source: 'VicRoads' },
-    { id: 'au-mel-4', lat: -37.8400, lng: 145.0000, name: 'Monash Fwy / Toorak', city: 'Melbourne', country: 'Australia', feed_url: 'https://traffic.vicroads.vic.gov.au', source: 'VicRoads' },
-    // Brisbane / QLD
-    { id: 'au-bne-1', lat: -27.4698, lng: 153.0251, name: 'Story Bridge', city: 'Brisbane', country: 'Australia', feed_url: 'https://qldtraffic.qld.gov.au/cameras.html', source: 'QLD Traffic' },
-    { id: 'au-bne-2', lat: -27.4750, lng: 153.0200, name: 'Captain Cook Bridge', city: 'Brisbane', country: 'Australia', feed_url: 'https://qldtraffic.qld.gov.au/cameras.html', source: 'QLD Traffic' },
-    // Adelaide / SA
-    { id: 'au-adl-1', lat: -34.9285, lng: 138.6007, name: 'North Terrace / CBD', city: 'Adelaide', country: 'Australia', feed_url: 'https://traffic.sa.gov.au', source: 'DIT SA' },
-    // Gold Coast
-    { id: 'au-gc-1', lat: -28.0167, lng: 153.4000, name: 'Surfers Paradise Esplanade', city: 'Gold Coast', country: 'Australia', feed_url: 'https://qldtraffic.qld.gov.au/cameras.html', source: 'QLD Traffic' },
-    // Canberra
-    { id: 'au-cbr-1', lat: -35.2809, lng: 149.1300, name: 'Commonwealth Ave Bridge', city: 'Canberra', country: 'Australia', feed_url: 'https://www.tccs.act.gov.au/roads-paths/traffic/traffic-cameras', source: 'ACT TCCS' },
-  ];
-  return curated;
+  const cams: any[] = [];
+  
+  // Singapore Live Traffic Images
+  try {
+    const res = await fetch('https://api.data.gov.sg/v1/transport/traffic-images', { signal: AbortSignal.timeout(10000) });
+    if (res.ok) {
+      const data = await res.json();
+      const items = data.items?.[0]?.cameras || [];
+      for (const cam of items) {
+        if (!cam.location?.latitude || !cam.location?.longitude || !cam.image) continue;
+        cams.push({
+          id: `sin-${cam.camera_id}`,
+          lat: cam.location.latitude,
+          lng: cam.location.longitude,
+          name: `Camera ${cam.camera_id}`,
+          city: 'Singapore',
+          country: 'Singapore',
+          feed_url: cam.image,
+          source: 'LTA Singapore'
+        });
+      }
+    }
+  } catch { /* silent */ }
+
+  return cams;
 }
 
 // ═══ REGION MAPPING ═══
