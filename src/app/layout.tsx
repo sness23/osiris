@@ -70,10 +70,24 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32.svg", type: "image/svg+xml", sizes: "16x16" },
       { url: "/favicon-32.svg", type: "image/svg+xml", sizes: "32x32" },
+      { url: "/favicon-32.svg", type: "image/svg+xml", sizes: "96x96" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/osiris-icon.png", type: "image/png", sizes: "512x512" },
     ],
-    apple: "/osiris-icon.png",
+    apple: [
+      { url: "/osiris-icon.png", sizes: "180x180" },
+      { url: "/osiris-icon.png", sizes: "152x152" },
+      { url: "/osiris-icon.png", sizes: "167x167" },
+    ],
     shortcut: "/favicon.svg",
+    other: [
+      {
+        rel: "apple-touch-icon-precomposed",
+        url: "/osiris-icon.png",
+      },
+    ],
   },
   manifest: "/manifest.json",
   alternates: {
