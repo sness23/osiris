@@ -1,0 +1,15 @@
+services:
+  osiris:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      # Optional — uncomment and fill in to enhance data sources
+      # - OPENSKY_USERNAME=your_username
+      # - OPENSKY_PASSWORD=your_password
+      # - N2YO_API_KEY=your_key
+      # - AIS_API_KEY=your_key
+    restart: unless-stopped
