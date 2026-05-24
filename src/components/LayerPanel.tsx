@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Plane, Satellite, Activity, Globe, Radio, Eye,
   Shield, Sun, AlertTriangle, Camera, Flame, Target,
-  CloudLightning, Radiation, Tv, Anchor, Ship, Newspaper, Send,
+  CloudLightning, Radiation, Tv, Anchor, Ship, Newspaper,
   ChevronDown, ChevronUp, ToggleLeft, ToggleRight,
 } from 'lucide-react';
 
@@ -44,7 +44,6 @@ const LAYER_GROUPS = [
       { key: 'cctv', label: 'CCTV Cameras', icon: Camera, color: '#39FF14', dataKey: 'cameras' },
       { key: 'live_news', label: 'Live News Feeds', icon: Tv, color: '#FF4081', dataKey: 'live_feeds' },
       { key: 'news_intel', label: 'SIGINT News (RSS)', icon: Newspaper, color: '#D4AF37', dataKey: 'news' },
-      { key: 'telegram_intel', label: 'Telegram OSINT', icon: Send, color: '#00BFFF', dataKey: 'telegram' },
     ],
   },
   {

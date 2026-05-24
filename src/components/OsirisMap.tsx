@@ -109,7 +109,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','telegram','gps-jamming','day-night','cctv','fires','weather','infrastructure','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','gps-jamming','day-night','cctv','fires','weather','infrastructure','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // ── CONFLICT ZONES — small warning markers (not polygons) ──
@@ -221,17 +221,6 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       // GDELT
       map.addLayer({ id: 'gdelt-dots', type: 'circle', source: 'gdelt', paint: {
         'circle-radius': 4, 'circle-color': '#FF3D3D', 'circle-opacity': 0.5, 'circle-stroke-width': 1, 'circle-stroke-color': '#FF3D3D', 'circle-stroke-opacity': 0.3,
-      }});
-
-      // Telegram OSINT feed — geoparsed posts from public channels
-      map.addLayer({ id: 'telegram-glow', type: 'circle', source: 'telegram', paint: {
-        'circle-radius': ['interpolate',['linear'],['zoom'], 1,6, 5,10, 10,16],
-        'circle-color': '#00BFFF', 'circle-opacity': 0.12, 'circle-blur': 1,
-      }});
-      map.addLayer({ id: 'telegram-dots', type: 'circle', source: 'telegram', paint: {
-        'circle-radius': ['interpolate',['linear'],['zoom'], 1,3.5, 5,5, 10,7],
-        'circle-color': '#00BFFF', 'circle-opacity': 0.85,
-        'circle-stroke-width': 1, 'circle-stroke-color': '#00BFFF', 'circle-stroke-opacity': 0.4,
       }});
 
       // GPS Jamming
@@ -575,24 +564,6 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       </div>`);
     });
 
-    // ── Telegram OSINT feed (geoparsed public-channel posts) ──
-    map.on('click', 'telegram-dots', e => {
-      if (!e.features?.length) return;
-      const p = e.features[0].properties as any;
-      const coords = (e.features[0].geometry as any).coordinates;
-      const channel = p.channel || 'channel';
-      const when = p.datetime ? new Date(p.datetime).toUTCString() : '';
-      popup(coords, `<div style="${pStyle}border:1px solid rgba(0,191,255,0.35);">
-        <div style="color:#00BFFF;font-size:12px;font-weight:700;margin-bottom:6px;">✉️ TELEGRAM @${channel}</div>
-        <div style="font-size:9px;color:#E8E6E0;margin-bottom:8px;line-height:1.4;">${p.name||'(no text)'}</div>
-        ${when ? `<div style="font-size:8px;color:#5C5A54;margin-bottom:8px;">${when}</div>` : ''}
-        <div style="display:flex;gap:6px;">
-          ${p.url ? `<a href="${p.url}" target="_blank" style="${linkStyle}color:#00BFFF;border:1px solid rgba(0,191,255,0.4);background:rgba(0,191,255,0.1);">OPEN POST</a>` : ''}
-          <a href="https://www.google.com/maps/@${coords[1]},${coords[0]},12z" target="_blank" style="${linkStyle}color:#448AFF;border:1px solid rgba(68,138,255,0.4);background:rgba(68,138,255,0.1);">MAP</a>
-        </div>
-      </div>`);
-    });
-
     // ── Global Event / Conflict Markers ──
     map.on('click', 'conflict-icons', e => {
       if (!e.features?.length) return;
@@ -611,7 +582,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
 
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','telegram-dots','weather-dots','infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','sweep-device-dots','scan-targets-dots'].forEach(layer => {
+    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','weather-dots','infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','sweep-device-dots','scan-targets-dots'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -853,15 +824,6 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
 
   useEffect(() => {
     if (!mapReady) return;
-    setGeo('telegram', activeLayers.telegram_intel && data.telegram ? data.telegram.map((e: any) => ({
-      type: 'Feature',
-      geometry: { type: 'Point', coordinates: [e.lng, e.lat] },
-      properties: { name: e.name, url: e.url, channel: e.channel, datetime: e.datetime },
-    })) : []);
-  }, [mapReady, data.telegram, activeLayers.telegram_intel, setGeo]);
-
-  useEffect(() => {
-    if (!mapReady) return;
     setGeo('gps-jamming', activeLayers.gps_jamming && data.gps_jamming ? data.gps_jamming.map((z: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [z.lng, z.lat] }, properties: { severity: z.severity } })) : []);
   }, [mapReady, data.gps_jamming, activeLayers.gps_jamming, setGeo]);
 
@@ -952,7 +914,6 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['eq-circles','eq-label'], activeLayers.earthquakes);
     setVis(['sat-dots'], activeLayers.satellites);
     setVis(['gdelt-dots'], activeLayers.global_incidents);
-    setVis(['telegram-glow','telegram-dots'], activeLayers.telegram_intel);
     setVis(['jam-fill','jam-label'], activeLayers.gps_jamming);
     setVis(['day-night-fill'], activeLayers.day_night);
     setVis(['fl-commercial'], activeLayers.flights);
